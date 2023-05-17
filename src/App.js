@@ -1,49 +1,30 @@
 import './App.css';
-import { DataGrid } from '@mui/x-data-grid';
-import { createGenerateClassName } from '@material-ui/core/styles';
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import React, { useState, useEffect } from "react";
 
-const generateClassName = createGenerateClassName({
-  // By enabling this option, if you have non-MUI elements (e.g. `<div />`)
-  // using MUI classes (e.g. `.MuiButton`) they will lose styles.
-  // Make sure to convert them to use `styled()` or `<Box />` first.
-  disableGlobal: true,
-  // Class names will receive this seed to avoid name collisions.
-  seed: 'mui-jss',
-});
-
-import React,  {useState, useEffect} from 'react';
-
-const columns = [
-  {
-    field : "id", headername : "id",
-    field : "name", headername : "name",
-    field : "username", headername : "username",
-    field : "email", headername : "email",
-    field : "phone", headername : "phone",
-    field : "website", headername : "website",
-
-  }
+const columns: GridColDef[] = [
+  { field: "id", headername: "Id", width: 150 },
+  { field: "name", headername: "Name", width: 200 },
+  { field: "username", headername: "Username", width: 150 },
+  { field: "email", headername: "Umail", width: 250 },
+  { field: "phone", headername: "Phone", width: 250 },
+  { field: "website", headername: "Website", width: 150 },
 ];
 
-
 function App() {
-
   const [data, setData] = useState([]);
 
-useEffect (() => {
-   fetch('https://jsonplaceholder.typicode.com/users')
-     .then(resp => resp.json())
-     .then(data => {
-      setData(data)
-     })
-} ,[])
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((data) => data.json())
+      .then((data) => {
+        setData(data);
+      });
+  }, []);
 
   return (
     <div className="App">
-      <DataGrid
-      row= {data}
-      columns = {columns}
-      />
+      <DataGrid rows={data} columns={columns} />
     </div>
   );
 }
